@@ -1,5 +1,5 @@
 /* =============================================================
-   AlignPortfolio — configuration
+   AlignPortfolio â configuration
    Edit this file, commit it to the repo, and everyone sees the
    same gallery / settings on GitHub Pages.
    ============================================================= */
@@ -10,9 +10,9 @@ window.ALIGN_CONFIG = {
      1) AUTHENTICATION
      ----------------------------------------------------------
      Real Microsoft Entra (Azure AD) sign-in runs entirely in
-     the browser via MSAL.js — no backend needed. To turn it on:
+     the browser via MSAL.js â no backend needed. To turn it on:
 
-       1. In the Azure portal → "App registrations" → New
+       1. In the Azure portal â "App registrations" â New
           registration. Platform = "Single-page application".
        2. Add the published Redirect URI, e.g.
           https://fredrikalign.github.io/AlignPortfolio/
@@ -22,7 +22,7 @@ window.ALIGN_CONFIG = {
      While clientId is empty the app runs in DEMO MODE: it shows
      the same login screen but accepts any e-mail on an allowed
      domain (below). Good for showing the portfolio before Azure
-     is wired up — NOT real security.                            */
+     is wired up â NOT real security.                            */
   auth: {
     clientId: "",            // e.g. "11111111-2222-3333-4444-555555555555"
     tenantId: "",            // your Align tenant id, or "organizations"
@@ -47,7 +47,7 @@ window.ALIGN_CONFIG = {
      2b) GITHUB UPLOAD
      ----------------------------------------------------------
      Employees can publish artifacts directly from the browser.
-     The token is NOT stored here — it is injected at deploy time
+     The token is NOT stored here â it is injected at deploy time
      via a GitHub Actions secret (GITHUB_UPLOAD_TOKEN). See
      .github/workflows/deploy.yml for details.                    */
   github: {
@@ -61,15 +61,15 @@ window.ALIGN_CONFIG = {
      GitHub Pages has no server, so counting real visits needs a
      tiny hosted data store. Two modes:
 
-       "local"    — counts live in the viewer's own browser only.
+       "local"    â counts live in the viewer's own browser only.
                     Good for demoing the UI, but it will NOT show
                     a customer's opens in your gallery (different
                     browser = different counter).
 
-       "firebase" — real, global counts via a free Firebase
+       "firebase" â real, global counts via a free Firebase
                     Realtime Database (no SDK, plain REST):
-                      1. console.firebase.google.com → new project
-                      2. Build → Realtime Database → Create
+                      1. console.firebase.google.com â new project
+                      2. Build â Realtime Database â Create
                       3. Rules: allow read/write on "portfolio_views"
                          (or open read/write while testing)
                       4. Paste the database URL below, e.g.
@@ -87,7 +87,7 @@ window.ALIGN_CONFIG = {
    Each entry is one artifact. Drop the HTML file in projects/
    and a screenshot in thumbnails/, then add a row here.
    Fields:
-     id     unique slug (also used in share links) — don't reuse
+     id     unique slug (also used in share links) â don't reuse
      title  display name
      cat     one of: landningssida | prototyp | presentation |
                      dashboard | rapport | ovrigt
@@ -100,8 +100,18 @@ window.ALIGN_CONFIG = {
 
 window.ALIGN_PROJECTS = [
   {
+    id: "marcom-studio-6dd7",
+    title: "MarCom Studio",
+    cat: "prototyp",
+    lang: "ENG",
+    desc: "The Align MarCom Studio",
+    file: "projects/marcom-studio-6dd7/MarCom Generator.html",
+    thumb: "",
+    date: "2026-06-03",
+  },
+  {
     id: "nordstrom-saas-landing",
-    title: "Nordström SaaS — Landing Page",
+    title: "NordstrÃ¶m SaaS â Landing Page",
     cat: "landningssida",
     lang: "SWE",
     desc: "Conversion-driven landing page for a B2B cloud service, built in the Align style.",
@@ -111,7 +121,7 @@ window.ALIGN_PROJECTS = [
   },
   {
     id: "ifs-onboarding-proto",
-    title: "IFS Cloud — Onboarding Prototype",
+    title: "IFS Cloud â Onboarding Prototype",
     cat: "prototyp",
     lang: "ENG",
     desc: "Clickable multi-step onboarding flow with live form validation and progress.",
@@ -121,7 +131,7 @@ window.ALIGN_PROJECTS = [
   },
   {
     id: "q2-kundpresentation",
-    title: "Q2 Client Presentation — Align Monitoring",
+    title: "Q2 Client Presentation â Align Monitoring",
     cat: "presentation",
     lang: "SWE",
     desc: "Sales presentation in slide format for Align Monitoring, ready for fullscreen.",
