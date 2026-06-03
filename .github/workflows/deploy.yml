@@ -25,13 +25,13 @@ jobs:
       - uses: actions/checkout@v4
 
       # Inject the upload token into data/config.secret.js at deploy time.
-      # GITHUB_UPLOAD_TOKEN is a fine-grained PAT stored as a repo secret
+      # ALIGN_UPLOAD_TOKEN is a fine-grained PAT stored as a repo secret
       # (Settings → Secrets → Actions). Only the admin sets this once.
       # The file is gitignored so the token never appears in the repo.
       - name: Inject upload token
         run: |
           cat > data/config.secret.js <<'JSEOF'
-          window.ALIGN_SECRET = { githubToken: "${{ secrets.GITHUB_UPLOAD_TOKEN }}" };
+          window.ALIGN_SECRET = { githubToken: "${{ secrets.ALIGN_UPLOAD_TOKEN }}" };
           JSEOF
 
       - uses: actions/configure-pages@v5
