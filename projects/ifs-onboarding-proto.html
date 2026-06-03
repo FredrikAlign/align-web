@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IFS Cloud — Onboarding</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+  :root{--orange:#FF6D00;--pink:#E91E63;--navy:hsl(224 71% 4%);--ink:hsl(240 10% 3.9%);--muted:hsl(240 3.8% 46.1%);--line:hsl(240 5.9% 90%);--grad:linear-gradient(135deg,#FF6D00,#E91E63);--ok:hsl(142 71% 45%);--err:hsl(0 84% 60%);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Inter",sans-serif;color:var(--ink);background:hsl(240 4.8% 96%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px;-webkit-font-smoothing:antialiased;}
+  .card{width:100%;max-width:560px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px -24px rgb(10 14 26 / .28);overflow:hidden;}
+  .head{background:var(--navy);padding:24px 32px;color:#fff;position:relative;overflow:hidden;}
+  .head .orb{position:absolute;width:200px;height:200px;border-radius:50%;background:rgb(255 109 0 / .25);filter:blur(50px);right:-40px;top:-80px;}
+  .brand{font-weight:700;font-size:15px;letter-spacing:-.01em;position:relative;}
+  .brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .steps{display:flex;gap:8px;margin-top:18px;position:relative;}
+  .sdot{flex:1;height:5px;border-radius:3px;background:rgb(255 255 255 / .18);overflow:hidden;}
+  .sdot i{display:block;height:100%;width:0;background:var(--grad);transition:width .4s ease;}
+  .sdot.done i{width:100%;}.sdot.active i{width:50%;}
+  .body{padding:32px;min-height:300px;}
+  .stepnum{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+  h1{font-size:24px;letter-spacing:-.02em;margin-bottom:6px;}
+  .lead{color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.5;}
+  label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;}
+  .field{margin-bottom:18px;}
+  input,select{width:100%;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 14px;font-family:inherit;font-size:14px;transition:border-color .15s,box-shadow .15s;}
+  input:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgb(255 109 0 / .15);}
+  input.bad{border-color:var(--err);box-shadow:0 0 0 3px rgb(239 68 68 / .12);}
+  .err{color:var(--err);font-size:12px;margin-top:5px;display:none;}
+  input.bad ~ .err{display:block;}
+  .opts{display:grid;gap:10px;}
+  .opt{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;}
+  .opt:hover{background:hsl(240 4.8% 97%);}
+  .opt.sel{border-color:var(--orange);background:rgb(255 109 0 / .06);}
+  .opt .ic{width:38px;height:38px;border-radius:9px;background:hsl(25 100% 50% / .1);display:flex;align-items:center;justify-content:center;color:var(--orange);flex-shrink:0;}
+  .opt .ic svg{width:19px;height:19px;}
+  .opt .t b{display:block;font-size:14px;}
+  .opt .t span{font-size:12px;color:var(--muted);}
+  .opt .chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;}
+  .opt.sel .chk{background:var(--orange);border-color:var(--orange);}
+  .opt .chk svg{width:12px;height:12px;opacity:0;}.opt.sel .chk svg{opacity:1;}
+  .foot{display:flex;gap:12px;padding:20px 32px;border-top:1px solid var(--line);background:hsl(240 4.8% 98%);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:8px;font-weight:600;font-size:14px;border:1px solid transparent;cursor:pointer;font-family:inherit;}
+  .btn-grad{background:var(--grad);color:#fff;flex:1;}.btn-grad:hover{opacity:.92;}
+  .btn-out{border-color:var(--line);background:#fff;}.btn-out:hover{background:hsl(240 4.8% 95%);}
+  .done-wrap{text-align:center;padding:18px 0;}
+  .check{width:72px;height:72px;border-radius:50%;background:hsl(142 71% 45% / .12);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;animation:pop .4s ease;}
+  .check svg{width:36px;height:36px;color:var(--ok);}
+  @keyframes pop{0%{transform:scale(.6);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .summary{text-align:left;background:hsl(240 4.8% 97%);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:22px;font-size:13px;}
+  .summary .r{display:flex;justify-content:space-between;padding:5px 0;}
+  .summary .r span{color:var(--muted);}
+  .summary .r b{font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <div class="orb"></div>
+      <div class="brand"><b>align</b> · IFS Cloud Setup</div>
+      <div class="steps" id="steps">
+        <div class="sdot"><i></i></div><div class="sdot"><i></i></div><div class="sdot"><i></i></div>
+      </div>
+    </div>
+    <div class="body" id="body"></div>
+    <div class="foot" id="foot"></div>
+  </div>
+
+<script>
+  const data = { name:"", email:"", company:"", env:"", plan:"" };
+  let step = 0;
+  const body = document.getElementById("body");
+  const foot = document.getElementById("foot");
+  const dots = [...document.querySelectorAll(".sdot")];
+
+  const chk = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  const envs = [
+    {id:"prod",t:"Production",d:"Live tenant — strict change control",ic:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'},
+    {id:"uat",t:"UAT",d:"User acceptance testing",ic:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>'},
+    {id:"cfg",t:"Config",d:"Sandbox for configuration",ic:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'},
+  ];
+  const plans = [
+    {id:"team",t:"Team",d:"Up to 5 environments"},
+    {id:"scale",t:"Scale",d:"Unlimited environments + SLA"},
+  ];
+
+  function render(){
+    dots.forEach((d,i)=>{d.className="sdot"+(i<step?" done":i===step?" active":"");});
+    if(step===0) renderAccount();
+    else if(step===1) renderEnv();
+    else if(step===2) renderPlan();
+    else renderDone();
+  }
+
+  function renderAccount(){
+    body.innerHTML=`
+      <div class="stepnum">Step 1 of 3</div>
+      <h1>Create your account</h1>
+      <p class="lead">Tell us who's connecting this IFS Cloud tenant to Align Monitoring.</p>
+      <div class="field"><label>Full name</label><input id="name" value="${data.name}" placeholder="Jane Andersson"/><div class="err">Please enter your name.</div></div>
+      <div class="field"><label>Work email</label><input id="email" value="${data.email}" placeholder="jane@company.com"/><div class="err">Enter a valid email address.</div></div>
+      <div class="field"><label>Company</label><input id="company" value="${data.company}" placeholder="Company AB"/><div class="err">Please enter your company.</div></div>`;
+    foot.innerHTML=`<button class="btn btn-grad" id="next">Continue</button>`;
+    document.getElementById("next").onclick=()=>{
+      const n=val("name"),e=val("email"),c=val("company");
+      let ok=true;
+      if(!n){bad("name");ok=false;}
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){bad("email");ok=false;}
+      if(!c){bad("company");ok=false;}
+      if(!ok)return;
+      data.name=n;data.email=e;data.company=c;step=1;render();
+    };
+    ["name","email","company"].forEach(id=>document.getElementById(id).oninput=e=>e.target.classList.remove("bad"));
+  }
+
+  function renderEnv(){
+    body.innerHTML=`
+      <div class="stepnum">Step 2 of 3</div>
+      <h1>Which environment first?</h1>
+      <p class="lead">You can add more later. Pick the one you want to start monitoring.</p>
+      <div class="opts">${envs.map(o=>`
+        <div class="opt ${data.env===o.id?'sel':''}" data-env="${o.id}">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${o.ic}</svg></div>
+          <div class="t"><b>${o.t}</b><span>${o.d}</span></div>
+          <div class="chk">${chk}</div>
+        </div>`).join("")}</div>`;
+    foot.innerHTML=`<button class="btn btn-out" id="back">Back</button><button class="btn btn-grad" id="next">Continue</button>`;
+    body.querySelectorAll(".opt").forEach(o=>o.onclick=()=>{data.env=o.dataset.env;renderEnv();});
+    document.getElementById("back").onclick=()=>{step=0;render();};
+    document.getElementById("next").onclick=()=>{if(data.env)step=2;render();};
+  }
+
+  function renderPlan(){
+    body.innerHTML=`
+      <div class="stepnum">Step 3 of 3</div>
+      <h1>Choose a plan</h1>
+      <p class="lead">Start free for 30 days — no card required.</p>
+      <div class="opts">${plans.map(o=>`
+        <div class="opt ${data.plan===o.id?'sel':''}" data-plan="${o.id}">
+          <div class="t"><b>${o.t}</b><span>${o.d}</span></div>
+          <div class="chk">${chk}</div>
+        </div>`).join("")}</div>`;
+    foot.innerHTML=`<button class="btn btn-out" id="back">Back</button><button class="btn btn-grad" id="next">Finish setup</button>`;
+    body.querySelectorAll(".opt").forEach(o=>o.onclick=()=>{data.plan=o.dataset.plan;renderPlan();});
+    document.getElementById("back").onclick=()=>{step=1;render();};
+    document.getElementById("next").onclick=()=>{if(data.plan){step=3;render();}};
+  }
+
+  function renderDone(){
+    dots.forEach(d=>d.className="sdot done");
+    const envName=(envs.find(e=>e.id===data.env)||{}).t||"—";
+    const planName=(plans.find(p=>p.id===data.plan)||{}).t||"—";
+    body.innerHTML=`
+      <div class="done-wrap">
+        <div class="check">${chk}</div>
+        <h1>You're all set, ${data.name.split(" ")[0]||"there"}!</h1>
+        <p class="lead">Your tenant is connecting. The first metrics appear within a few minutes.</p>
+        <div class="summary">
+          <div class="r"><span>Company</span><b>${data.company}</b></div>
+          <div class="r"><span>Environment</span><b>${envName}</b></div>
+          <div class="r"><span>Plan</span><b>${planName} · 30-day trial</b></div>
+        </div>
+      </div>`;
+    foot.innerHTML=`<button class="btn btn-grad" id="next">Go to dashboard</button>`;
+    document.getElementById("next").onclick=()=>{step=0;data.env="";data.plan="";render();};
+  }
+
+  function val(id){return document.getElementById(id).value.trim();}
+  function bad(id){document.getElementById(id).classList.add("bad");}
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nordström Cloud — Smartare ERP-drift</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+  :root{
+    --orange:#FF6D00;--pink:#E91E63;--navy:hsl(224 71% 4%);
+    --ink:hsl(240 10% 3.9%);--muted:hsl(240 3.8% 46.1%);--line:hsl(240 5.9% 90%);
+    --grad:linear-gradient(135deg,#FF6D00,#E91E63);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Inter",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  /* nav */
+  nav{height:68px;display:flex;align-items:center;gap:28px;border-bottom:1px solid var(--line);}
+  .logo{font-weight:700;font-size:19px;letter-spacing:-.02em;}
+  .logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  nav .links{display:flex;gap:24px;margin-left:auto;font-size:14px;color:var(--muted);font-weight:500;}
+  nav .links a:hover{color:var(--ink);}
+  .btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:8px;font-weight:600;font-size:14px;border:1px solid transparent;cursor:pointer;}
+  .btn-grad{background:var(--grad);color:#fff;}
+  .btn-grad:hover{opacity:.92;}
+  .btn-out{border-color:var(--line);background:#fff;}
+  .btn-out:hover{background:hsl(240 4.8% 95.9%);}
+  /* hero */
+  .hero{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:hsl(25 100% 50% / .08);padding:6px 14px;border-radius:999px;margin-bottom:24px;}
+  .hero h1{font-size:60px;line-height:1.05;letter-spacing:-.03em;font-weight:700;max-width:780px;margin:0 auto 22px;}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero p{font-size:20px;color:var(--muted);max-width:560px;margin:0 auto 36px;line-height:1.5;}
+  .cta-row{display:flex;gap:14px;justify-content:center;}
+  .trust{margin-top:48px;font-size:13px;color:var(--muted);}
+  .logos{display:flex;gap:36px;justify-content:center;margin-top:18px;opacity:.55;font-weight:700;font-size:18px;letter-spacing:-.01em;}
+  /* dashboard mock */
+  .shot{max-width:920px;margin:64px auto 0;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 60px -20px rgb(10 14 26 / .25);overflow:hidden;background:#fff;}
+  .shot .bar{height:38px;background:var(--navy);display:flex;align-items:center;gap:7px;padding:0 14px;}
+  .dot{width:11px;height:11px;border-radius:50%;}
+  .shot .body{display:grid;grid-template-columns:200px 1fr;min-height:300px;}
+  .shot .side{background:var(--navy);padding:18px 14px;display:flex;flex-direction:column;gap:6px;}
+  .shot .side .item{height:30px;border-radius:6px;padding:0 10px;display:flex;align-items:center;font-size:12px;color:hsl(213 31% 75%);}
+  .shot .side .item.active{background:hsl(25 100% 50% / .2);color:var(--orange);border-left:2px solid var(--orange);font-weight:600;}
+  .shot .main{padding:22px;background:hsl(240 4.8% 98%);}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;}
+  .stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;}
+  .stat .v{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:6px;}
+  .stat .v.up{color:hsl(142 71% 38%);}
+  .chartmock{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:10px;height:120px;padding:16px;display:flex;align-items:flex-end;gap:8px;}
+  .chartmock .col{flex:1;background:var(--grad);border-radius:4px 4px 0 0;opacity:.85;}
+  /* features */
+  .feat{padding:96px 0;}
+  .feat h2{font-size:38px;letter-spacing:-.02em;text-align:center;max-width:620px;margin:0 auto 14px;}
+  .feat .sub{text-align:center;color:var(--muted);font-size:18px;margin-bottom:56px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .fcard{border:1px solid var(--line);border-radius:14px;padding:28px;background:#fff;transition:box-shadow .2s,transform .2s;}
+  .fcard:hover{box-shadow:0 18px 40px -16px rgb(10 14 26 / .2);transform:translateY(-3px);}
+  .ficon{width:46px;height:46px;border-radius:11px;background:hsl(25 100% 50% / .1);display:flex;align-items:center;justify-content:center;color:var(--orange);margin-bottom:18px;}
+  .ficon svg{width:23px;height:23px;}
+  .fcard h3{font-size:18px;margin-bottom:8px;letter-spacing:-.01em;}
+  .fcard p{color:var(--muted);font-size:14px;line-height:1.55;}
+  /* cta band */
+  .band{background:var(--navy);border-radius:20px;margin:0 0 96px;padding:64px;text-align:center;position:relative;overflow:hidden;}
+  .band .orb{position:absolute;width:340px;height:340px;border-radius:50%;filter:blur(70px);}
+  .band .orb.o{background:rgb(255 109 0 / .25);left:8%;top:-30%;}
+  .band .orb.p{background:rgb(233 30 99 / .25);right:8%;bottom:-40%;}
+  .band h2{color:#fff;font-size:36px;letter-spacing:-.02em;position:relative;margin-bottom:14px;}
+  .band p{color:hsl(213 31% 78%);font-size:17px;margin-bottom:30px;position:relative;}
+  footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:13px;display:flex;}
+  @media(max-width:780px){.hero h1{font-size:40px;}.grid3{grid-template-columns:1fr;}.shot .body{grid-template-columns:1fr;}.shot .side{display:none;}nav .links{display:none;}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><b>nordström</b>cloud</div>
+      <div class="links"><a href="#">Produkt</a><a href="#">Lösningar</a><a href="#">Priser</a><a href="#">Kunder</a></div>
+      <a class="btn btn-grad" href="#" style="height:38px">Boka demo</a>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">● Drift i realtid</span>
+      <h1>ERP-drift som <span class="g">aldrig sover</span></h1>
+      <p>Övervaka, analysera och optimera dina molnmiljöer i realtid — med insikter byggda för nordiska verksamheter.</p>
+      <div class="cta-row">
+        <a class="btn btn-grad" href="#">Kom igång gratis</a>
+        <a class="btn btn-out" href="#">Se hur det fungerar</a>
+      </div>
+      <div class="trust">Litas på av drift­team i hela Norden</div>
+      <div class="logos"><span>VOLVA</span><span>NORDByGG</span><span>Saga AB</span><span>Fjäll&amp;Co</span></div>
+
+      <div class="shot">
+        <div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span></div>
+        <div class="body">
+          <div class="side">
+            <div class="item active">Översikt</div>
+            <div class="item">Tillgänglighet</div>
+            <div class="item">Jobb</div>
+            <div class="item">Databas</div>
+            <div class="item">Användare</div>
+          </div>
+          <div class="main">
+            <div class="stats">
+              <div class="stat"><div class="k">Drifttid</div><div class="v up">99,98%</div></div>
+              <div class="stat"><div class="k">Svarstid</div><div class="v">142 ms</div></div>
+              <div class="stat"><div class="k">Aktiva</div><div class="v">1 284</div></div>
+            </div>
+            <div class="chartmock">
+              <div class="col" style="height:40%"></div><div class="col" style="height:62%"></div><div class="col" style="height:48%"></div><div class="col" style="height:78%"></div><div class="col" style="height:55%"></div><div class="col" style="height:88%"></div><div class="col" style="height:70%"></div><div class="col" style="height:95%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feat">
+    <div class="wrap">
+      <h2>Allt ditt driftteam behöver</h2>
+      <p class="sub">Från larm till åtgärd — på en plattform.</p>
+      <div class="grid3">
+        <div class="fcard">
+          <div class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <h3>Realtidsövervakning</h3>
+          <p>Se status på endpoints, jobb och databaser i samma sekund som något händer.</p>
+        </div>
+        <div class="fcard">
+          <div class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+          <h3>Trender &amp; prognoser</h3>
+          <p>Förstå tillväxt i datavolym och belastning innan det blir ett problem.</p>
+        </div>
+        <div class="fcard">
+          <div class="ficon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h3>Säker access</h3>
+          <p>Inloggning via Microsoft Entra ID. Rätt person ser rätt miljö — inget mer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="band">
+      <div class="orb o"></div><div class="orb p"></div>
+      <h2>Redo att se din drift på riktigt?</h2>
+      <p>Kom igång på under 15 minuter. Ingen kreditkort krävs.</p>
+      <a class="btn btn-grad" href="#" style="position:relative">Boka en demo</a>
+    </div>
+    <footer><span>© 2026 Nordström Cloud</span><span style="margin-left:auto">Ett demo­alster från Align Consulting</span></footer>
+  </div>
+</body>
+</html>

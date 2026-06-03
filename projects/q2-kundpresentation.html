@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Align Monitoring — Q2 Kundpresentation</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+  :root{--orange:#FF6D00;--pink:#E91E63;--navy:#06090F;--ink:hsl(240 10% 3.9%);--muted:hsl(240 3.8% 46.1%);--grad:linear-gradient(135deg,#FF6D00,#E91E63);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:"Inter",sans-serif;background:#000;overflow:hidden;-webkit-font-smoothing:antialiased;}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;}
+  #canvas{width:1280px;height:720px;position:relative;transform-origin:center;background:#fff;}
+  .slide{position:absolute;inset:0;padding:80px;display:none;flex-direction:column;}
+  .slide.on{display:flex;}
+  .eyebrow{font-size:15px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+  h1{font-size:64px;line-height:1.05;letter-spacing:-.03em;font-weight:700;color:var(--ink);}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  h2{font-size:46px;letter-spacing:-.02em;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  p.lead{font-size:24px;color:var(--muted);line-height:1.5;max-width:760px;}
+  /* title slide */
+  .title{background:var(--navy);justify-content:center;overflow:hidden;}
+  .title .orb{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(90px);}
+  .title .orb.o{background:rgb(255 109 0 / .28);left:-8%;top:-20%;}
+  .title .orb.p{background:rgb(233 30 99 / .28);right:-6%;bottom:-26%;}
+  .title .logo{position:relative;font-weight:700;font-size:30px;margin-bottom:40px;}
+  .title .logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .title h1{color:#fff;position:relative;max-width:900px;}
+  .title p{color:hsl(213 31% 78%);font-size:24px;margin-top:24px;position:relative;}
+  .title .foot{position:absolute;bottom:64px;left:80px;color:hsl(213 31% 60%);font-size:16px;}
+  /* stat slide */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px;}
+  .stat{border:1px solid hsl(240 5.9% 88%);border-radius:16px;padding:34px;}
+  .stat .v{font-size:60px;font-weight:700;letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .stat .k{font-size:18px;color:var(--muted);margin-top:8px;}
+  /* bullets */
+  .bul{margin-top:36px;display:flex;flex-direction:column;gap:20px;}
+  .bul .b{display:flex;gap:18px;align-items:flex-start;}
+  .bul .n{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;}
+  .bul .tx b{font-size:21px;display:block;}
+  .bul .tx span{font-size:18px;color:var(--muted);}
+  /* closing */
+  .close{background:var(--navy);justify-content:center;align-items:center;text-align:center;overflow:hidden;}
+  .close .orb{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(90px);}
+  .close .orb.o{background:rgb(255 109 0 / .25);left:20%;top:-30%;}
+  .close .orb.p{background:rgb(233 30 99 / .25);right:18%;bottom:-30%;}
+  .close h2{color:#fff;font-size:56px;position:relative;}
+  .close p{color:hsl(213 31% 78%);font-size:22px;margin-top:18px;position:relative;}
+  /* nav */
+  .nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgb(6 9 15 / .8);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;z-index:10;}
+  .nav button{width:34px;height:34px;border-radius:50%;border:0;background:rgb(255 255 255 / .12);color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .nav button:hover{background:rgb(255 255 255 / .22);}
+  .nav .ct{color:#fff;font-size:13px;font-variant-numeric:tabular-nums;min-width:42px;text-align:center;}
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="canvas">
+      <section class="slide title on">
+        <div class="orb o"></div><div class="orb p"></div>
+        <div class="logo"><b>align</b> monitoring</div>
+        <h1>Full koll på din <span class="g">IFS Cloud-drift</span></h1>
+        <p>Q2-genomgång · Realtidsövervakning för era ERP-miljöer</p>
+        <div class="foot">Align Consulting · Juni 2026</div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Läget idag</div>
+        <h2>Drift utan insyn kostar</h2>
+        <p class="lead">När ERP-miljön krånglar märks det ofta först när användarna hör av sig. Då är skadan redan skedd.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">4,2h</div><div class="k">snitt­tid till upptäckt</div></div>
+          <div class="stat"><div class="v">68%</div><div class="k">larm via slutanvändare</div></div>
+          <div class="stat"><div class="v">0</div><div class="k">samlad vy över miljöer</div></div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Lösningen</div>
+        <h2>Allt på en skärm — i realtid</h2>
+        <div class="bul">
+          <div class="b"><div class="n">1</div><div class="tx"><b>Status direkt</b><span>Login, gateway och OData-endpoints — grönt eller rött, alltid uppdaterat.</span></div></div>
+          <div class="b"><div class="n">2</div><div class="tx"><b>Trender &amp; prognoser</b><span>Svarstider, databastillväxt och belastning över tid.</span></div></div>
+          <div class="b"><div class="n">3</div><div class="tx"><b>Säker access</b><span>Microsoft Entra ID — varje kund ser bara sina egna miljöer.</span></div></div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="eyebrow">Resultat</div>
+        <h2>Vad våra kunder ser</h2>
+        <div class="stats">
+          <div class="stat"><div class="v">99,9%</div><div class="k">uppmätt drifttid</div></div>
+          <div class="stat"><div class="v">−85%</div><div class="k">tid till upptäckt</div></div>
+          <div class="stat"><div class="v">Multi</div><div class="k">miljöer i en vy</div></div>
+        </div>
+      </section>
+
+      <section class="slide close">
+        <div class="orb o"></div><div class="orb p"></div>
+        <h2>Ska vi koppla in er miljö?</h2>
+        <p>Vi sätter upp en pilot på en vecka. Hör av er till ert Align-team.</p>
+      </section>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prev">‹</button>
+    <span class="ct" id="ct">1 / 5</span>
+    <button id="next">›</button>
+  </div>
+
+<script>
+  const slides=[...document.querySelectorAll(".slide")];
+  let i=0;
+  const canvas=document.getElementById("canvas");
+  function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);canvas.style.transform="scale("+s+")";}
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle("on",k===i));document.getElementById("ct").textContent=(i+1)+" / "+slides.length;}
+  document.getElementById("next").onclick=()=>show(i+1);
+  document.getElementById("prev").onclick=()=>show(i-1);
+  addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" ")show(i+1);if(e.key==="ArrowLeft")show(i-1);});
+  addEventListener("resize",fit);fit();show(0);
+</script>
+</body>
+</html>
