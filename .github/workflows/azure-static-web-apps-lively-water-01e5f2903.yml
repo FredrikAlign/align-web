@@ -32,6 +32,11 @@ jobs:
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
            result-encoding: string
+      - name: Inject upload token
+        run: |
+          cat > data/config.secret.js <<'JSEOF'
+          window.ALIGN_SECRET = { githubToken: "${{ secrets.ALIGN_UPLOAD_TOKEN }}" };
+          JSEOF
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
