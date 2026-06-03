@@ -44,6 +44,18 @@ window.ALIGN_CONFIG = {
   shareBaseUrl: "",
 
   /* ----------------------------------------------------------
+     2b) GITHUB UPLOAD
+     ----------------------------------------------------------
+     Employees can publish artifacts directly from the browser.
+     The token is NOT stored here — it is injected at deploy time
+     via a GitHub Actions secret (GITHUB_UPLOAD_TOKEN). See
+     .github/workflows/deploy.yml for details.                    */
+  github: {
+    repo:   "fredrikalign/align-web", // owner/repo
+    branch: "main",
+  },
+
+  /* ----------------------------------------------------------
      3) VIEW COUNTER (how many times a shared link was opened)
      ----------------------------------------------------------
      GitHub Pages has no server, so counting real visits needs a
