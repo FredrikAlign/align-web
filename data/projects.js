@@ -47,17 +47,10 @@ window.ALIGN_CONFIG = {
      2b) GITHUB UPLOAD
      ----------------------------------------------------------
      Employees can publish artifacts directly from the browser.
-     Create a fine-grained Personal Access Token at:
-       https://github.com/settings/tokens?type=beta
-     Scopes needed: Contents — Read and write (on this repo only).
-
-     Fill in the three fields below and the "Save locally" button
-     becomes "Publish to GitHub". GitHub Pages re-deploys in ~30s
-     and the artifact is live for everyone.
-
-     Leave token empty to keep the manual export workflow.         */
+     The token is NOT stored here — it is injected at deploy time
+     via a GitHub Actions secret (GITHUB_UPLOAD_TOKEN). See
+     .github/workflows/deploy.yml for details.                    */
   github: {
-    token:  "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",                       // fine-grained PAT
     repo:   "fredrikalign/align-web", // owner/repo
     branch: "main",
   },

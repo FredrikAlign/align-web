@@ -69,6 +69,7 @@
     trash: '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
     folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
     files: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/>',
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
   };
   const svg = (name, cls) =>
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"${cls ? ` class="${cls}"` : ""}>${I[name] || ""}</svg>`;
@@ -464,6 +465,7 @@
           <div class="avatar">${initials(user.name)}</div>
           <span>${esc(user.name)}</span>
         </div>
+        ${!(window.AlignGitHub && window.AlignGitHub.isDeployToken()) ? `<button class="btn btn-ghost btn-icon btn-sm" id="settingsBtn" title="GitHub settings">${svg("settings")}</button>` : ""}
         <button class="btn btn-ghost btn-icon btn-sm" id="outBtn" title="Sign out">${svg("logout")}</button>
       </header>
 
@@ -500,6 +502,8 @@
 
     // wire toolbar
     document.getElementById("addBtn").addEventListener("click", openAddModal);
+    const settingsBtn = document.getElementById("settingsBtn");
+    if (settingsBtn) settingsBtn.addEventListener("click", openSettingsModal);
     document.getElementById("outBtn").addEventListener("click", signOut);
     const si = document.getElementById("searchInput");
     si.addEventListener("input", () => {
@@ -869,6 +873,68 @@
       const rowsEl = modal.querySelector("#linkRows");
       if (rowsEl) rowsEl.innerHTML = rows.join("");
     }
+  }
+
+  /* =============================================================
+     SETTINGS MODAL (GitHub token)
+     ============================================================= */
+  function openSettingsModal() {
+    const gh = window.AlignGitHub;
+    const ghCfg = (window.ALIGN_CONFIG || {}).github || {};
+    const hasGh = !!(ghCfg.repo && ghCfg.branch);
+    const hasToken = gh && gh.getToken();
+
+    const body = `
+      <p class="hint" style="margin-bottom:16px">Configure the GitHub publish token. The token is stored only in your browser and is never sent to anyone except GitHub.</p>
+      ${!hasGh ? `<div class="login__error">GitHub is not configured — add <code>repo</code> and <code>branch</code> to <code>ALIGN_CONFIG.github</code> in <code>data/projects.js</code>.</div>` : `
+      <div class="field">
+        <label class="field-label" for="ghToken">Personal Access Token (fine-grained)</label>
+        <input class="input" id="ghToken" type="password" placeholder="github_pat_…"
+          value="${hasToken ? gh.getToken() : ""}" autocomplete="off" spellcheck="false" />
+        <p class="hint" style="margin-top:6px">
+          Create one at <b>github.com → Settings → Developer settings → Fine-grained tokens</b>.<br>
+          Select repo <code>${ghCfg.repo || ""}</code> · permission: <b>Contents — Read and write</b>.
+        </p>
+      </div>
+      ${hasToken ? `<button class="btn btn-outline btn-sm" id="clearTokenBtn" style="margin-top:4px">${svg("trash")} Remove saved token</button>` : ""}
+      `}`;
+
+    openModal("GitHub settings", body, [
+      { label: "Cancel", cls: "btn-outline", close: true },
+      ...(hasGh ? [{ label: "Save token", cls: "btn-gradient", icon: "check", id: "saveTokenBtn" }] : []),
+    ], (modal) => {
+      const clearBtn = modal.querySelector("#clearTokenBtn");
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          gh.clearToken();
+          toast("Token removed");
+          closeModal();
+          renderGallery();
+        });
+      }
+      const saveBtn = modal.querySelector("#saveTokenBtn");
+      if (saveBtn) {
+        saveBtn.addEventListener("click", async () => {
+          const input = modal.querySelector("#ghToken");
+          const val = (input.value || "").trim();
+          if (!val) { toast("Enter a token first", true); return; }
+          saveBtn.disabled = true;
+          saveBtn.textContent = "Verifying…";
+          try {
+            await gh.verifyToken(val);
+          } catch (e) {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = svg("check") + "Save token";
+            toast(e.message, true);
+            return;
+          }
+          gh.saveToken(val);
+          toast("Token saved — you can now publish artifacts");
+          closeModal();
+          renderGallery();
+        });
+      }
+    });
   }
 
   /* =============================================================
