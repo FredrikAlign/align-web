@@ -89,17 +89,17 @@ window.ALIGN_CONFIG = {
 window.ALIGN_PROJECTS = [
   {
     id: "nordstrom-saas-landing",
-    title: "Nordström SaaS — Landningssida",
+    title: "Nordström SaaS — Landing Page",
     cat: "landningssida",
     lang: "SWE",
-    desc: "Konverteringsdriven landningssida för en B2B-molntjänst, byggd i Align-stil.",
+    desc: "Conversion-driven landing page for a B2B cloud service, built in the Align style.",
     file: "projects/nordstrom-saas-landing.html",
     thumb: "thumbnails/nordstrom-saas-landing.png",
     date: "2026-05-21",
   },
   {
     id: "ifs-onboarding-proto",
-    title: "IFS Cloud — Onboarding-prototyp",
+    title: "IFS Cloud — Onboarding Prototype",
     cat: "prototyp",
     lang: "ENG",
     desc: "Clickable multi-step onboarding flow with live form validation and progress.",
@@ -109,10 +109,10 @@ window.ALIGN_PROJECTS = [
   },
   {
     id: "q2-kundpresentation",
-    title: "Q2 Kundpresentation — Align Monitoring",
+    title: "Q2 Client Presentation — Align Monitoring",
     cat: "presentation",
     lang: "SWE",
-    desc: "Säljpresentation i bildspelsformat för Align Monitoring, redo för helskärm.",
+    desc: "Sales presentation in slide format for Align Monitoring, ready for fullscreen.",
     file: "projects/q2-kundpresentation.html",
     thumb: "thumbnails/q2-kundpresentation.png",
     date: "2026-06-01",
