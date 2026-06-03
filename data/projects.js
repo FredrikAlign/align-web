@@ -57,7 +57,7 @@ window.ALIGN_CONFIG = {
 
      Leave token empty to keep the manual export workflow.         */
   github: {
-    token:  "",                       // fine-grained PAT
+    token:  "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",                       // fine-grained PAT
     repo:   "fredrikalign/align-web", // owner/repo
     branch: "main",
   },
