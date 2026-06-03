@@ -976,13 +976,18 @@
           <input type="file" id="thumbInput" accept="image/*" hidden />
         </div>
 
-        <p class="hint">Saved directly in your browser (multi-file artifacts are stored securely on-device) so you can show it now. Use <b>Export for GitHub</b> to add it permanently to the gallery for everyone.</p>`;
+        <p class="hint">${window.AlignGitHub && window.AlignGitHub.isConfigured()
+          ? "Files will be published directly to GitHub and become visible to everyone once GitHub Pages redeploys (~30 s)."
+          : "Saved directly in your browser (multi-file artifacts are stored securely on-device) so you can show it now. Use <b>Export for GitHub</b> to add it permanently to the gallery for everyone."
+        }</p>`;
     }
+
+    const ghConfigured = window.AlignGitHub && window.AlignGitHub.isConfigured();
 
     openModal("Add artifact", body(), [
       { label: "Cancel", cls: "btn-outline", close: true },
-      { label: "Export for GitHub", cls: "btn-outline", icon: "external", id: "exportBtn" },
-      { label: "Save locally", cls: "btn-gradient", icon: "check", id: "saveBtn" },
+      ...(ghConfigured ? [] : [{ label: "Export for GitHub", cls: "btn-outline", icon: "external", id: "exportBtn" }]),
+      { label: ghConfigured ? "Publish to GitHub" : "Save locally", cls: "btn-gradient", icon: ghConfigured ? "upload" : "check", id: "saveBtn" },
     ], wire);
 
     function wire(modal) {
@@ -1000,6 +1005,39 @@
       modal.querySelector("#saveBtn").addEventListener("click", async () => {
         const d = collect(modal);
         if (!d) return;
+
+        if (window.AlignGitHub && window.AlignGitHub.isConfigured() && mode === "upload") {
+          // --- GitHub publish path ---
+          if (!files || !files.length) { toast("Upload files first", true); return; }
+          const btn = modal.querySelector("#saveBtn");
+          btn.disabled = true;
+          const statusEl = document.createElement("p");
+          statusEl.className = "hint";
+          statusEl.style.marginTop = "8px";
+          btn.parentElement.appendChild(statusEl);
+          try {
+            await window.AlignGitHub.upload({
+              files,
+              entryPath,
+              entry: d,
+              thumbDataUrl: thumbData || null,
+              onProgress(done, total, msg) {
+                statusEl.textContent = "Uploading… (" + done + "/" + total + ") " + msg;
+              },
+            });
+          } catch (e) {
+            btn.disabled = false;
+            statusEl.remove();
+            toast("GitHub upload failed: " + e.message, true);
+            return;
+          }
+          closeModal();
+          toast("Published to GitHub — live in ~30 s");
+          renderGallery();
+          return;
+        }
+
+        // --- local save path ---
         if (mode === "upload") {
           if (!files || !files.length) { toast("Upload files first", true); return; }
           d._local = true; d._multi = true; d.entry = AlignFiles.norm(entryPath); d.files = files.length;

@@ -44,6 +44,25 @@ window.ALIGN_CONFIG = {
   shareBaseUrl: "",
 
   /* ----------------------------------------------------------
+     2b) GITHUB UPLOAD
+     ----------------------------------------------------------
+     Employees can publish artifacts directly from the browser.
+     Create a fine-grained Personal Access Token at:
+       https://github.com/settings/tokens?type=beta
+     Scopes needed: Contents — Read and write (on this repo only).
+
+     Fill in the three fields below and the "Save locally" button
+     becomes "Publish to GitHub". GitHub Pages re-deploys in ~30s
+     and the artifact is live for everyone.
+
+     Leave token empty to keep the manual export workflow.         */
+  github: {
+    token:  "",                       // fine-grained PAT
+    repo:   "fredrikalign/align-web", // owner/repo
+    branch: "main",
+  },
+
+  /* ----------------------------------------------------------
      3) VIEW COUNTER (how many times a shared link was opened)
      ----------------------------------------------------------
      GitHub Pages has no server, so counting real visits needs a
