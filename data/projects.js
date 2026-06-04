@@ -76,7 +76,7 @@ window.ALIGN_CONFIG = {
                          https://your-app-default-rtdb.firebaseio.com
                     Then set mode to "firebase".                  */
   analytics: {
-    mode: "local",          // "local" | "firebase"
+    mode: "firebase",          // "local" | "firebase"
     firebaseUrl: "https://align-portfolio-default-rtdb.europe-west1.firebasedatabase.app",        // e.g. "https://align-portfolio-default-rtdb.firebaseio.com"
   },
 };
